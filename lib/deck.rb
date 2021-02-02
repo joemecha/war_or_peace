@@ -1,8 +1,13 @@
 class Deck
-  attr_accessor #stuff
+  attr_reader :cards
 
   def initialize(cards)
     @cards = []
+    @ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"]
+    @suits = [:club, :diamond, :heart, :spade]
+
+    #Write iteration to populate @cards array
+    
   end
 
   def rank_of_card_at(index)
