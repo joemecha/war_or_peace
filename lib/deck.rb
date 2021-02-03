@@ -7,32 +7,30 @@ class Deck
     @values = %w(two three four five six seven eight nine ten jack queen king ace)
     @suits = [:club, :diamond, :heart, :spade]
 
-    @ranks.each do |rank|
-      @values.each do |value|
-        @suits.each do |suit|
-          @cards << Card.new(suit, value, rank)
-        end
-      end 
+    @ranks.each do |rank, value| # This does not work. All values are nil
+      @suits.each do |suit|
+        @cards << Card.new(suit, value, rank)
+      end
     end
   end
 
-  # def rank_of_card_at(index)
-  #   # stuff
-  # end
-  #
-  # def high_ranking_cards(cards)
-  #   # returns an array of cards in deck rank 11 and above
-  # end
-  #
-  # def percent_high_ranking(cards)
-  #   # this method will return the percentage of high ranking cards
-  # end
-  #
-  # def remove_card
-  #   # removes top card of deck
-  # end
-  #
-  # def add_card
-  #   # adds one card to the bottom (end) of the deck
-  # end
+  def rank_of_card_at(index)
+    # stuff
+  end
+
+  def high_ranking_cards(cards)
+    # returns an array of cards in deck rank 11 and above
+  end
+
+  def percent_high_ranking(cards)
+    # this method will return the percentage of high ranking cards
+  end
+
+  def remove_card
+    # removes top card of deck
+  end
+
+  def add_card
+    # adds one card to the bottom (end) of the deck
+  end
 end
