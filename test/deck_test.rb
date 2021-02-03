@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/card'
 require './lib/deck'
-require 'pry'
 
 class DeckTest < Minitest::Test
   def test_it_exists
@@ -17,7 +16,7 @@ class DeckTest < Minitest::Test
     assert_equal 52, deck.cards.length
   end
 
-  def cards_have_values
+  def test_cards_have_values
     deck = Deck.new
     some_card_value = deck.cards.first.value
 
