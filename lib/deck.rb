@@ -1,36 +1,54 @@
 class Deck
   attr_reader :cards
 
-  def initialize
-    @cards = []
-    @ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"]
-    @values = %w(two three four five six seven eight nine ten jack queen king ace)
-    @suits = [:club, :diamond, :heart, :spade]
-
-    @ranks.each do |rank, value| # This does not work. All values are nil
-      @suits.each do |suit|
-        @cards << Card.new(suit, value, rank)
-      end
-    end
+  def initialize(cards)
+    @cards = cards
   end
+
 
   def rank_of_card_at(index)
-    # stuff
+    @cards[index].rank
   end
 
-  def high_ranking_cards(cards)
-    # returns an array of cards in deck rank 11 and above
+  def high_ranking_cards
+    high_ranking_cards = []
+    @cards.each do |card|
+      if card.rank > 10
+        high_ranking_cards << card
+      end
+    end
+    high_ranking_cards
   end
 
-  def percent_high_ranking(cards)
-    # this method will return the percentage of high ranking cards
+  def percent_high_ranking
+    high_rankers = []
+    @cards.each do |card|
+      if card.rank > 10
+        high_rankers << card
+      end
+    end
+    high_percent = (high_rankers.length.to_f / @cards.length * 100).round(2)
   end
 
   def remove_card
-    # removes top card of deck
+    @cards.shift
   end
 
-  def add_card
-    # adds one card to the bottom (end) of the deck
+  def add_card(card)
+    @cards << card
   end
 end
+
+
+# @ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+# @values = %w(two three four five six seven eight nine ten jack queen king ace)
+# @suits = [:club, :diamond, :heart, :spade]
+#
+# @ranks.each do |rank, value|
+#   require 'pry'
+#   binding.pry
+#   @suits.each do |suit|
+#     @cards << Card.new(suit, value, rank)
+#   end
+# end
+# end
