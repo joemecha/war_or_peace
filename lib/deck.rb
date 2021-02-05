@@ -44,7 +44,7 @@ end
 # @values = %w(two three four five six seven eight nine ten jack queen king ace)
 # @suits = [:club, :diamond, :heart, :spade]
 #
-# @ranks.each do |rank, value|
+# @ranks_and_value_hash.each do |rank, value| # create hash to make this work 
 #   require 'pry'
 #   binding.pry
 #   @suits.each do |suit|

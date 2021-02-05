@@ -43,20 +43,40 @@ class Turn
   def pile_cards
     #Cards sent from players' decks into spoils_of_war
     if type == :basic
-      @spoils_of_war << @player1.deck.cards[0]
-      @spoils_of_war << @player2.deck.cards[0]
+      @spoils_of_war.push(@player1.deck.cards[0], @player2.deck.cards[0])
+      # Check if this way of removing cards can be improved
+      @player1.deck.cards.shift
+      @player2.deck.cards.shift
     elsif type == :war
       @spoils_of_war.push(@player1.deck.cards[0], @player1.deck.cards[1], @player1.deck.cards[2])
       @spoils_of_war.push(@player2.deck.cards[0], @player2.deck.cards[1], @player2 .deck.cards[2])
+      3.times do @player1.deck.cards.shift
+      end
+      3.times do @player2.deck.cards.shift
+      end
     elsif type == :mutually_assured_destruction
       3.times do @player1.deck.cards.shift
       end
       3.times do @player2.deck.cards.shift
-      end 
+      end
     end
   end
 
   def award_spoils(winner)
-    #Cards in spoils_of_war added to winner's deck
+    pile_cards
+    if winner == @player1
+      @spoils_of_war.each do |card|
+        @player1.deck.cards << card
+      end
+      @spoils_of_war.clear
+    elsif winner == @player2
+      @spoils_of_war.each do |card|
+        @player2.deck.cards << card
+      end
+      @spoils_of_war.clear
+    elsif winner == "No Winner"
+      @spoils_of_war.clear
+    end
   end
+
 end
