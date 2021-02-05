@@ -4,7 +4,6 @@ require './lib/card'
 require './lib/deck'
 require './lib/player'
 require './lib/turn'
-require 'pry'
 
 class TurnTest < Minitest::Test
   def setup
@@ -43,7 +42,8 @@ class TurnTest < Minitest::Test
     assert_equal :basic, @turn.type
   end
 
-  def test_type_war_if_top_cards_different_rank
+  def test_type_war_if_top_cards_same_rank
+  # Need to abandon 'setup' from here. How can reduce lines in file?
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:heart, 'Jack', 11)
@@ -64,7 +64,7 @@ class TurnTest < Minitest::Test
     assert_equal :war, @turn.type
   end
 
-  def test_type_MAD_if_top_cards_different_rank
+  def test_type_MAD_if_top_cards_AND_third_same_rank
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:heart, 'Jack', 11)

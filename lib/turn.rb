@@ -44,7 +44,6 @@ class Turn
     #Cards sent from players' decks into spoils_of_war
     if type == :basic
       @spoils_of_war.push(@player1.deck.cards[0], @player2.deck.cards[0])
-      # Check if this way of removing cards can be improved
       @player1.deck.cards.shift
       @player2.deck.cards.shift
     elsif type == :war
