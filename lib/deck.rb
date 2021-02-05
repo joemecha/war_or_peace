@@ -5,7 +5,6 @@ class Deck
     @cards = cards
   end
 
-
   def rank_of_card_at(index)
     @cards[index].rank
   end
@@ -38,17 +37,3 @@ class Deck
     @cards << card
   end
 end
-
-
-# @ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-# @values = %w(two three four five six seven eight nine ten jack queen king ace)
-# @suits = [:club, :diamond, :heart, :spade]
-#
-# @ranks_and_value_hash.each do |rank, value| # create hash to make this work 
-#   require 'pry'
-#   binding.pry
-#   @suits.each do |suit|
-#     @cards << Card.new(suit, value, rank)
-#   end
-# end
-# end

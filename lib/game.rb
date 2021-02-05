@@ -1,6 +1,7 @@
 class Game
 
   def initialize
+    
   end
 
   def standard_deck
@@ -29,6 +30,6 @@ class Game
         @turn.player2.deck.cards << card
       end
     end
-  end 
+  end
 
 end
