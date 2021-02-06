@@ -1,10 +1,11 @@
 class Game
-  attr_reader :cards, :deck1, :deck2
+  attr_reader :game_cards, :deck1, :deck2, :turn_counter
 
   def initialize
-    @cards = []
+    @game_cards = []
     @deck1 = []
     @deck2 = []
+    @turn_counter = 0
   end
 
   def standard_deck
@@ -16,30 +17,40 @@ class Game
 
     ranks_and_value_hash.each do |rank, value|
       suits.each do |suit|
-        @cards << Card.new(suit, value, rank)
+        @game_cards << Card.new(suit, value, rank) # This needs to go to
       end
     end
   end
 
   def shuffle_deck
-    @cards.shuffle! #Note: '!' modifies the array in place
+    @game_cards.shuffle! #Note: '!' modifies the array in place
   end
 
   def deal_cards
     shuffle_deck
-    @deck1 = @cards[0..25]
-    @deck2 = @cards[26..52]
+    @deck1 = @game_cards[0..25]
+    @deck2 = @game_cards[26..52]
 
   end
 
   def play_turn
-    Turn.new(@player1, @player2)
-    if # conditional for turn type and display
-
+    turn = Turn.new(@player1, @player2)
+    @turn_counter += 1
+    turn.pile_cards
+    turn.award_spoils(turn.winner)
+    if turn.type == :basic
+      p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
+    elsif turn.type == :war
+      p "Turn #{@turn_counter}: WAR - #{@turn.winner.name} won 6 cards"
+    elsif turn.type == :mutually_assured_destruction
+      p "Turn #{@turn_counter}: *mutually assured desctruction* 6 cards removed from play"
+    end
   end
 
   def start
+    # Generates a 52 card deck
     standard_deck
+    # Shuffles cards and divides into 2 player decks
     deal_cards
 
     @player1 = Player.new("Space Ghost", @deck1)
@@ -49,35 +60,44 @@ class Game
     The players today are Space Ghost and Zorak.
     Type 'GO' to start the game!
     ------------------------------------------------------------------"
+    # Get user input to run the game
     ok_go = gets.chomp
     ok_go = gets.chomp
     if ok_go == "go" || ok_go == "GO"
-      ""
+      "" # What is the standard way to move on when input condition met?
+         # neither 'break' nor 'next' worked
     else
       until ok_go == "go" || ok_go == "GO"
         puts "Please type 'go' or 'GO' to start the game."
         ok_go = gets.chomp
       end
     end
-    #   #Code for turns and display until draw or winner
-      turn_counter = 0
-      while turn_counter < 1000000
-        Turn.new(@player1, @player2) # put into a game method
-        # display what's happening
-        turn_counter += 1
-      end
+
+    play_turn
+
+    # Add completed conditional loop with play_turn method and end_game method here
+  end
+
+  def end_game
+    if @turn.player1.has_lost?
+      p "*~*~*~* #{@player2} has won the game! *~*~*~*"
+    else
+      p "*~*~*~* #{@player1} has won the game! *~*~*~*"
     end
   end
+
+
+    #
+      #Code for turns and display until draw or winner
+      # while turn_counter < 1000000
+      #   @turn_counter += 1
+      #   self.play_turn
+      #
+      #   # Display messages by turn type:
+      #
+      #   # end of game messages:
+      #   p "*~*~*~* #{} has won the game! *~*~*~*"
+      #   p "Turn #{@turn_counter}! The game is a draw. Too bad!"
+      # end
+    # end
 end
-
-
-
-
-# ALTERNATIVE CODE TO BE DELETED
-#rewrite [0..]
-# @cards.each do |card|
-#   if @cards.index(card).even?
-#     @deck1 << card
-#   elsif @cards.index(card).odd?
-#     @deck2 << card
-#   end
