@@ -32,29 +32,40 @@ class Game
 
   end
 
+  def play_turn
+    Turn.new(@player1, @player2)
+    if # conditional for turn type and display
+
+  end
+
   def start
     standard_deck
     deal_cards
 
-    @player1 = Player.new("Muttley", @deck1)
-    @player2 = Player.new("Scooby", @deck2)
+    @player1 = Player.new("Space Ghost", @deck1)
+    @player2 = Player.new("Zorak", @deck2)
 
     p "Welcome to War! (or Peace) This game will be played with 52 cards.
-    The players today are Muttley and Underdog.
+    The players today are Space Ghost and Zorak.
     Type 'GO' to start the game!
     ------------------------------------------------------------------"
-    go = gets.chomp
-    while go != "go" || "GO"
-      puts "Please type 'go' or 'GO' to start the game."
+    ok_go = gets.chomp
+    ok_go = gets.chomp
+    if ok_go == "go" || ok_go == "GO"
+      ""
+    else
+      until ok_go == "go" || ok_go == "GO"
+        puts "Please type 'go' or 'GO' to start the game."
+        ok_go = gets.chomp
+      end
     end
-    if go = "go" || "GO"
     #   #Code for turns and display until draw or winner
       turn_counter = 0
       while turn_counter < 1000000
-        Turn.new(@player1, @player2)
+        Turn.new(@player1, @player2) # put into a game method
         # display what's happening
         turn_counter += 1
-        
+      end
     end
   end
 end
