@@ -1,14 +1,13 @@
 class Game
-  attr_reader :game_cards, :deck1, :deck2, :turn_counter
+  attr_reader :game_cards, :turn_counter
 
   def initialize
     @game_cards = []
-    @deck1 = []
-    @deck2 = []
     @turn_counter = 0
   end
 
-  def standard_deck
+  def create_standard_deck
+    # Generates a 52 card deck and stores in @game_cards
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     values = %w(two three four five six seven eight nine ten jack queen king ace)
     suits = [:club, :diamond, :heart, :spade]
@@ -17,16 +16,17 @@ class Game
 
     ranks_and_value_hash.each do |rank, value|
       suits.each do |suit|
-        @game_cards << Card.new(suit, value, rank) # This needs to go to
+        @game_cards << Card.new(suit, value, rank)
       end
     end
   end
 
   def shuffle_deck
-    @game_cards.shuffle! #Note: '!' modifies the array in place
+    @game_cards.shuffle!         #Note: '!' modifies the array in place
   end
 
   def deal_cards
+    # Shuffles deck, splits into two arrays, passes on to two new Decks
     shuffle_deck
     @cards1 = @game_cards[0..25]
     @cards2 = @game_cards[26..52]
@@ -34,39 +34,23 @@ class Game
     @deck2 = Deck.new(@cards2)
   end
 
-  def play_turn
-    turn = Turn.new(@player1, @player2)
-    @turn_counter += 1
-    turn.pile_cards
-    turn.award_spoils(turn.winner)
-    if turn.type == :basic
-      p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
-    elsif turn.type == :war
-      p "Turn #{@turn_counter}: WAR - #{@turn.winner.name} won 6 cards"
-    elsif turn.type == :mutually_assured_destruction
-      p "Turn #{@turn_counter}: *mutually assured desctruction* 6 cards removed from play"
-    end
-  end
-
   def start
-    # Generates a 52 card deck
-    standard_deck
-    # Shuffles cards and divides into 2 player decks
+    create_standard_deck
     deal_cards
 
     @player1 = Player.new("Space Ghost", @deck1)
     @player2 = Player.new("Zorak", @deck2)
+    @turn = Turn.new(@player1, @player2)           # IS '@' NECESSARY HERE??
 
-    p "Welcome to War! (or Peace) This game will be played with 52 cards.
-    The players today are Space Ghost and Zorak.
-    Type 'GO' to start the game!
-    ------------------------------------------------------------------"
+    puts "Welcome to War! (or Peace) This game will be played with 52 cards."
+    puts "The players today are Space Ghost and Zorak."
+    puts "Type 'GO' to start the game!"
+    puts "------------------------------------------------------------------"
+
     # Get user input to run the game
     ok_go = gets.chomp
-    ok_go = gets.chomp
-    if ok_go == "go" || ok_go == "GO"
-      "" # What is the standard way to move on when input condition met?
-         # neither 'break' nor 'next' worked
+    if (ok_go == "go") || (ok_go == "GO")
+      play_game                            # I thought I needed 'self.' here but didn't...
     else
       until ok_go == "go" || ok_go == "GO"
         puts "Please type 'go' or 'GO' to start the game."
@@ -75,29 +59,39 @@ class Game
     end
   end
 
-  # Add method with completed conditional loop with play_turn method and end_game method here
-
+  def play_game
+    while @player1.has_lost? == false && @player2.has_lost? == false
+      @turn_counter += 1
+      if @turn_counter == 100001
+        p "Dude, it's #{@turn_counter}! The game is a draw. Too bad!"
+        break
+      else
+        if @turn.type == :basic
+          @turn.pile_cards
+          @turn.award_spoils(@turn.winner)   # Two '@' seems funky. Will this work??
+          p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
+          sleep 0.25                         # Experiment to slow down play
+        elsif @turn.type == :war
+          @turn.pile_cards
+          @turn.award_spoils(@turn.winner)
+          p "Turn #{@turn_counter}: WAR - #{@turn.winner.name} won 6 cards"
+          sleep 0.25
+        elsif @turn.type == :mutually_assured_destruction
+          @turn.pile_cards
+          @turn.award_spoils(@turn.winner)
+          p "Turn #{@turn_counter}: *mutually assured desctruction* 6 cards removed from play"
+          sleep 0.25
+        end
+      end
+    end
+    end_game
+  end
 
   def end_game
     if @turn.player1.has_lost?
-      p "*~*~*~* #{@player2} has won the game! *~*~*~*"
+      p "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
     else
-      p "*~*~*~* #{@player1} has won the game! *~*~*~*"
+      p "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
     end
   end
-
-
-    #
-      #Code for turns and display until draw or winner
-      # while turn_counter < 1000000
-      #   @turn_counter += 1
-      #   self.play_turn
-      #
-      #   # Display messages by turn type:
-      #
-      #   # end of game messages:
-      #   p "*~*~*~* #{} has won the game! *~*~*~*"
-      #   p "Turn #{@turn_counter}! The game is a draw. Too bad!"
-      # end
-    # end
 end

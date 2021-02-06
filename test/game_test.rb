@@ -10,7 +10,13 @@ require 'pry'
 
 class GameTest < Minitest::Test
   def setup
+    @turn = Turn.new(@player1, @player2)
     @game = Game.new
+    @game.create_standard_deck
+    @game.deal_cards
+    @player1 = Player.new("Space Ghost", @deck1)
+    @player2 = Player.new("Zorak", @deck2)
+
   end
 
   def test_game_exists
@@ -18,13 +24,13 @@ class GameTest < Minitest::Test
   end
 
   def test_standard_deck_has_52_cards
-    @game.standard_deck
+    @game.create_standard_deck
 
     assert_equal @game.game_cards.length, 52
   end
 
   def test_shuffle_deck
-    @game.standard_deck
+    @game.create_standard_deck
     unshuffled = @game.game_cards[0..2]
 
     @game.shuffle_deck
@@ -34,22 +40,25 @@ class GameTest < Minitest::Test
   end
 
   def test_deal_cards
-    @game.standard_deck
+    @turn = Turn.new(@player1, @player2)
+    @game = Game.new
+    @game.create_standard_deck
     @game.deal_cards
-
-
-    assert_equal @game.deck1.cards.length, 26 # Left out 'game.' in this test and was stuck for a long time
+    @player1 = Player.new("Space Ghost", @deck1)
+    @player2 = Player.new("Zorak", @deck2)
+    
+    assert_equal @game.deck1.cards.length, 26     # Had left out 'game.' in this test and was stuck for a long time
     assert_equal @game.deck2.cards.length, 26
-    refute_equal @game.deck1.cards, @game.deck2.cards 
+    refute_equal @game.deck1.cards, @game.deck2.cards
   end
 
   def test_play_turn_increments_turn_counter #Not working
-    skip
+    # skip
     @game.standard_deck
     @game.deal_cards
 
-    @player1 = Player.new("Space Ghost", @game.deck1) #something with deck/cards wrong here
-    @player2 = Player.new("Zorak", @game.deck2)
+    @player1 = Player.new("Space Ghost", @deck1) #something with deck/cards wrong here
+    @player2 = Player.new("Zorak", @deck2)
 
     assert_equal @game.turn_counter, 0
 
@@ -60,7 +69,6 @@ class GameTest < Minitest::Test
 
 
   def start_creates_two_players # Passes
-    skip
     @game.start
 
     assert_equal @game.player1.name, "Space Ghost"
@@ -70,18 +78,18 @@ class GameTest < Minitest::Test
   end
 
   def test_end_game # NOT WORKING
-    skip
+    # skip
     @game.standard_deck
     @game.deal_cards
     @game.start
 
-    @turn = turn = Turn.new(@player1, @player2)
+    @turn = Turn.new(@player1, @player2)
 
-    assert_equal @game.player1.has_lost?, false
-    assert_equal @game.player2.has_lost?, false
+    assert_equal @game.turn.player1.has_lost?, false
+    assert_equal @game.turn.player2.has_lost?, false
 
-    @game.player1.deck.cards = []
-    @game.player2.deck.cards = []
+    @game.turn.player1.deck.cards = []
+    @game.turn.player2.deck.cards = []
 
     assert_equal @game.player1.has_lost?, true
     assert_equal @game.player2.has_lost?, true
