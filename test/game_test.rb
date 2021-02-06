@@ -39,8 +39,18 @@ class GameTest < Minitest::Test
     @game.deal_cards
 
 
-    assert_equal @game.deck1.length, 26
+    assert_equal @game.deck1.length, 26 # Left out 'game.' in this test and was stuck for a long time 
     assert_equal @game.deck2.length, 26
     refute_equal @game.deck1, @game.deck2
   end
+
+  def start_creates_two_players
+    @game.start
+
+    assert_equal @game.player1.name, "Muttley"
+    assert_equal @game.player2.name, "Scooby"
+    assert_equal @game.start.player1.deck, @game.deck1
+    assert_equal @game.start.player2.deck, @game.deck2
+  end
+
 end
