@@ -35,12 +35,12 @@ class GameTest < Minitest::Test
   end
 
   def test_deal_cards
-    skip
     @game.standard_deck
     @game.deal_cards
 
-    assert_equal @deck1.length, 26
-    assert_equal @deck2.length, 26
-    refute_equal @deck1, @deck2
+
+    assert_equal @game.deck1.length, 26
+    assert_equal @game.deck2.length, 26
+    refute_equal @game.deck1, @game.deck2
   end
 end

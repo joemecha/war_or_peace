@@ -22,7 +22,7 @@ class Game
   end
 
   def shuffle_deck
-    @cards.shuffle!
+    @cards.shuffle! #Note: '!' modifies the array in place
   end
 
   def deal_cards
@@ -32,15 +32,31 @@ class Game
 
   end
 
-  def start
-
-    @player1 = Player.new("Muttley", @deck1)
-    @player2 = Player.new("Underdog", @desk2)
-  end
-
+  # def start
+  #   standard_deck
+  #   deal_cards
+  #
+  #   @player1 = Player.new("Muttley", @deck1)
+  #   @player2 = Player.new("Underdog", @desk2)
+  #
+  #   p "Welcome to War! (or Peace) This game will be played with 52 cards.
+  #   The players today are Muttley and Underdog.
+  #   Type 'GO' to start the game!
+  #   ------------------------------------------------------------------"
+  #   go = gets.chomp
+  #   While go != "go" || "GO"
+  #     puts "Please type 'go' or 'GO' to start the game."
+  #   end
+  #   # If go = "go" || "GO"
+  #   #   #Code for turns and display until draw or winner
+  #   # end
+  # end
 end
 
 
+
+
+# ALTERNATIVE CODE TO BE DELETED
 #rewrite [0..]
 # @cards.each do |card|
 #   if @cards.index(card).even?
