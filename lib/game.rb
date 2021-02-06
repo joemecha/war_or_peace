@@ -28,9 +28,10 @@ class Game
 
   def deal_cards
     shuffle_deck
-    @deck1 = @game_cards[0..25]
-    @deck2 = @game_cards[26..52]
-
+    @cards1 = @game_cards[0..25]
+    @cards2 = @game_cards[26..52]
+    @deck1 = Deck.new(@cards1)
+    @deck2 = Deck.new(@cards2)
   end
 
   def play_turn
@@ -72,11 +73,10 @@ class Game
         ok_go = gets.chomp
       end
     end
-
-    play_turn
-
-    # Add completed conditional loop with play_turn method and end_game method here
   end
+
+  # Add method with completed conditional loop with play_turn method and end_game method here
+
 
   def end_game
     if @turn.player1.has_lost?
