@@ -6,13 +6,13 @@ class Game
     @turn_counter = 0
   end
 
-  def create_standard_deck
+  def generate_standard_deck
     # Generates a 52 card deck and stores in @game_cards
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     values = %w(two three four five six seven eight nine ten jack queen king ace)
     suits = [:club, :diamond, :heart, :spade]
 
-    ranks_and_value_hash = Hash[ranks.zip(values)] # create hash to make this work
+    ranks_and_value_hash = Hash[ranks.zip(values)] # hash to make this work
 
     ranks_and_value_hash.each do |rank, value|
       suits.each do |suit|
@@ -35,12 +35,12 @@ class Game
   end
 
   def start
-    create_standard_deck
+    generate_standard_deck
     deal_cards
 
     @player1 = Player.new("Space Ghost", @deck1)
     @player2 = Player.new("Zorak", @deck2)
-    @turn = Turn.new(@player1, @player2)           # IS '@' NECESSARY HERE??
+    @turn = Turn.new(@player1, @player2)
 
     puts "Welcome to War! (or Peace) This game will be played with 52 cards."
     puts "The players today are Space Ghost and Zorak."
@@ -63,27 +63,30 @@ class Game
     p "#{@turn.player1.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this checking the start is ok
     p "#{@turn.player2.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this line too
 
-    while (@player1.has_lost? == false) && (@player2.has_lost? == false)
+    until (@player1.has_lost? == true) || (@player2.has_lost? == true) # Changed from while (false and false) to until (true or true)
       @turn_counter += 1
       if @turn_counter == 100001
-        p "Dude, it's #{@turn_counter}! The game is a draw. Too bad!"
+        p "Dude, it's turn #{@turn_counter}! The game is a draw. Too bad!"
         break
       else
         if @turn.type == :basic
+          winner = @turn.winner # Added to fix situation that player2 always won the game
           @turn.pile_cards
-          @turn.award_spoils(@turn.winner)   # Two '@' seems funky. Will this work??
+          @turn.award_spoils(winner)
           p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
           p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards" # Added to observe changes in deck size during game
           # sleep 0.20                         # Experiment to slow down play
         elsif @turn.type == :war
+          @winner = @turn.winner
           @turn.pile_cards
-          @turn.award_spoils(@turn.winner)
+          @turn.award_spoils(winner)
           p "Turn #{@turn_counter}: WAR - #{@turn.winner.name} won 6 cards"
           p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards"
           # sleep 0.20
         elsif @turn.type == :mutually_assured_destruction
+          winner = @turn.winner
           @turn.pile_cards
-          @turn.award_spoils(@turn.winner)
+          @turn.award_spoils(winner)
           p "Turn #{@turn_counter}: *mutually assured desctruction* 6 cards removed from play"
           # sleep 0.20
         end

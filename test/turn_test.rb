@@ -65,6 +65,7 @@ class TurnTest < Minitest::Test
   end
 
   def test_type_MAD_if_top_cards_AND_third_same_rank
+    skip
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:heart, 'Jack', 11)
@@ -111,6 +112,7 @@ class TurnTest < Minitest::Test
   end
 
   def test_no_winner_for_MAD_type_turn
+    skip
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:heart, 'Jack', 11)
@@ -176,10 +178,11 @@ class TurnTest < Minitest::Test
 
     assert_equal [@card1, @card2, @card5, @card3, @card4, @card6], @turn.spoils_of_war
     assert_equal @turn.player1.deck.cards, [@card8]
-     assert_equal @turn.player2.deck.cards, [@card7]
+    assert_equal @turn.player2.deck.cards, [@card7]
   end
 
   def test_pile_cards_sends_nothing_if_MAD
+    skip
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:club, 'Jack', 11)
@@ -196,12 +199,14 @@ class TurnTest < Minitest::Test
     @player2 = Player.new("Aurora", @deck2)
 
     @turn = Turn.new(@player1, @player2)
+
     @turn.pile_cards
 
     assert_equal [], @turn.spoils_of_war
   end
 
   def test_award_spoils_of_war_to_winner_deck_if_basic
+    skip
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:heart, '9', 9)
@@ -226,6 +231,7 @@ class TurnTest < Minitest::Test
   end
 
   def test_award_spoils_of_war_to_winner_deck_if_war
+    skip
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:club, 'Jack', 11)
@@ -249,6 +255,7 @@ class TurnTest < Minitest::Test
   end
 
   def test_dont_award_spoils_of_war_if_MAD
+    skip
     @card1 = Card.new(:heart, 'Jack', 11)
     @card2 = Card.new(:heart, '10', 10)
     @card3 = Card.new(:club, 'Jack', 11)
@@ -269,5 +276,7 @@ class TurnTest < Minitest::Test
     @turn.award_spoils(@turn.winner)
 
     assert_equal [], @turn.spoils_of_war
+    assert_equal @turn.player1.deck.cards, [@card8]
+    assert_equal @turn.player2.deck.cards, [@card7]
   end
 end

@@ -14,8 +14,8 @@ class Turn
     # Compare cards from players' decks to determine type of turn
     if @player1.deck.rank_of_card_at(0) != @player2.deck.rank_of_card_at(0)
       @types[0]
-    elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0) &&
-          @player1.deck.rank_of_card_at(2) != @player2.deck.rank_of_card_at(2)
+    elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0)
+          # @player1.deck.rank_of_card_at(2) != @player2.deck.rank_of_card_at(2) # <-- MISTAKE HERE
       @types[1]
     elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0) &&
           @player1.deck.rank_of_card_at(2) == @player2.deck.rank_of_card_at(2)
@@ -38,7 +38,7 @@ class Turn
         @player2
       end
     elsif type == :mutually_assured_destruction
-      "No Winner"
+      p "No Winner"
     end
   end
 
@@ -49,12 +49,10 @@ class Turn
       @player1.deck.cards.shift
       @player2.deck.cards.shift
     elsif type == :war
-      @spoils_of_war.push(@player1.deck.cards[0], @player1.deck.cards[1], @player1.deck.cards[2])
-      @spoils_of_war.push(@player2.deck.cards[0], @player2.deck.cards[1], @player2 .deck.cards[2])
-      3.times do @player1.deck.cards.shift
-      end
-      3.times do @player2.deck.cards.shift
-      end
+      @spoils_of_war.push(@player1.deck.cards[0], @player1.deck.cards[1], @player1.deck.cards[2],
+                          @player2.deck.cards[0], @player2.deck.cards[1], @player2 .deck.cards[2])
+      3.times {@player1.deck.cards.shift}
+      3.times {@player2.deck.cards.shift}
     elsif type == :mutually_assured_destruction
       3.times do @player1.deck.cards.shift
       end
@@ -64,7 +62,7 @@ class Turn
   end
 
   def award_spoils(winner)
-    pile_cards
+    # pile_cards                    # NO! WHY did I put this here?
     if winner == @player1
       @spoils_of_war.each do |card|
         @player1.deck.cards << card
