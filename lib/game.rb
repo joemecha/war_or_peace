@@ -60,7 +60,10 @@ class Game
   end
 
   def play_game
-    while @player1.has_lost? == false && @player2.has_lost? == false
+    p "#{@turn.player1.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this checking the start is ok
+    p "#{@turn.player2.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this line too
+
+    while (@player1.has_lost? == false) && (@player2.has_lost? == false)
       @turn_counter += 1
       if @turn_counter == 100001
         p "Dude, it's #{@turn_counter}! The game is a draw. Too bad!"
@@ -70,17 +73,19 @@ class Game
           @turn.pile_cards
           @turn.award_spoils(@turn.winner)   # Two '@' seems funky. Will this work??
           p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
-          sleep 0.25                         # Experiment to slow down play
+          p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards" # Added to observe changes in deck size during game
+          # sleep 0.20                         # Experiment to slow down play
         elsif @turn.type == :war
           @turn.pile_cards
           @turn.award_spoils(@turn.winner)
           p "Turn #{@turn_counter}: WAR - #{@turn.winner.name} won 6 cards"
-          sleep 0.25
+          p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards"
+          # sleep 0.20
         elsif @turn.type == :mutually_assured_destruction
           @turn.pile_cards
           @turn.award_spoils(@turn.winner)
           p "Turn #{@turn_counter}: *mutually assured desctruction* 6 cards removed from play"
-          sleep 0.25
+          # sleep 0.20
         end
       end
     end
@@ -90,7 +95,7 @@ class Game
   def end_game
     if @turn.player1.has_lost?
       p "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
-    else
+    elsif @turn.player2.has_lost?
       p "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
     end
   end

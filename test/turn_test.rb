@@ -176,7 +176,7 @@ class TurnTest < Minitest::Test
 
     assert_equal [@card1, @card2, @card5, @card3, @card4, @card6], @turn.spoils_of_war
     assert_equal @turn.player1.deck.cards, [@card8]
-    assert_equal @turn.player2.deck.cards, [@card7]
+     assert_equal @turn.player2.deck.cards, [@card7]
   end
 
   def test_pile_cards_sends_nothing_if_MAD
