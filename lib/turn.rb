@@ -14,8 +14,8 @@ class Turn
     # Compare cards from players' decks to determine type of turn
     if @player1.deck.rank_of_card_at(0) != @player2.deck.rank_of_card_at(0)
       @types[0]
-    elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0)
-          # @player1.deck.rank_of_card_at(2) != @player2.deck.rank_of_card_at(2) # <-- MISTAKE HERE
+    elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0) &&
+          @player1.deck.rank_of_card_at(2) != @player2.deck.rank_of_card_at(2) # <-- FOUND/FIXED MISTAKE HERE
       @types[1]
     elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0) &&
           @player1.deck.rank_of_card_at(2) == @player2.deck.rank_of_card_at(2)
@@ -62,7 +62,7 @@ class Turn
   end
 
   def award_spoils(winner)
-    # pile_cards                    # NO! WHY did I put this here?
+    # pile_cards                    # NO! WHY did I put this here? Attempting to make a helper method I think
     if winner == @player1
       @spoils_of_war.each do |card|
         @player1.deck.cards << card
