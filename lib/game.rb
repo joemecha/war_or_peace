@@ -29,7 +29,7 @@ class Game
     # Shuffles deck, splits into two arrays, passes on to two new Decks
     shuffle_deck
     @cards1 = @game_cards[0..25]
-    @cards2 = @game_cards[26..52]
+    @cards2 = @game_cards[26..51]
     @deck1 = Deck.new(@cards1)
     @deck2 = Deck.new(@cards2)
   end
@@ -60,13 +60,13 @@ class Game
   end
 
   def play_game
-    p "#{@turn.player1.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this checking the start is ok
-    p "#{@turn.player2.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this line too
+    # p "#{@turn.player1.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this checking the start is ok
+    # p "#{@turn.player2.name} now has #{@turn.winner.deck.cards.length} cards" # Delete this line too
 
     until (@player1.has_lost? == true) || (@player2.has_lost? == true) # Changed from while (false and false) to until (true or true)
       @turn_counter += 1
       if @turn_counter == 100001
-        p "Dude, it's turn #{@turn_counter}! The game is a draw. Too bad!"
+        p "Dude, it's turn #{@turn_counter}! The game is a draw. Booooring!"
         break
       else
         if @turn.type == :basic
@@ -75,20 +75,20 @@ class Game
           @turn.award_spoils(winner)
           p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
           p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards" # Added to observe changes in deck size during game
-          # sleep 0.20                         # Experiment to slow down play
+
         elsif @turn.type == :war
           @winner = @turn.winner
           @turn.pile_cards
           @turn.award_spoils(winner)
           p "Turn #{@turn_counter}: WAR - #{@turn.winner.name} won 6 cards"
           p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards"
-          # sleep 0.20
+
         elsif @turn.type == :mutually_assured_destruction
           winner = @turn.winner
           @turn.pile_cards
           @turn.award_spoils(winner)
           p "Turn #{@turn_counter}: *mutually assured desctruction* 6 cards removed from play"
-          # sleep 0.20
+
         end
       end
     end

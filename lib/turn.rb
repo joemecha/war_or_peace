@@ -6,6 +6,7 @@ class Turn
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
+    @no_winner = "No Winner"
     @spoils_of_war = []
     @types = [:basic, :war, :mutually_assured_destruction]
   end
