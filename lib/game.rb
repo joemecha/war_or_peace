@@ -65,15 +65,15 @@ class Game
 
     until (@player1.has_lost? == true) || (@player2.has_lost? == true) # Changed from while (false and false) to until (true or true)
       @turn_counter += 1
-      if @turn_counter == 100001
+      if @turn_counter == 1000001
         p "Dude, it's turn #{@turn_counter}! The game is a draw. Booooring!"
         break
       else
         if @turn.type == :basic
-          winner = @turn.winner # Added to fix situation that player2 always won the game
+          winner = @turn.winner
           @turn.pile_cards
           @turn.award_spoils(winner)
-          p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"
+          p "Turn #{@turn_counter}: #{@turn.winner.name} won 2 cards"  # UNRESOLVED 76:in `play_game': undefined method `name' for "No Winner":String (NoMethodError)
           p "#{@turn.winner.name} now has #{@turn.winner.deck.cards.length} cards" # Added to observe changes in deck size during game
 
         elsif @turn.type == :war
