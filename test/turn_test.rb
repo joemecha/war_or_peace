@@ -151,6 +151,8 @@ class TurnTest < Minitest::Test
     @turn.pile_cards
 
     assert_equal [@card1, @card3], @turn.spoils_of_war
+    assert_equal @turn.player1.deck.cards, [@card2, @card5, @card8]
+    assert_equal @turn.player2.deck.cards, [@card4, @card6, @card7]
   end
 
   def test_pile_cards_sends_each_players_top_3_cards_if_war
@@ -173,6 +175,8 @@ class TurnTest < Minitest::Test
     @turn.pile_cards
 
     assert_equal [@card1, @card2, @card5, @card3, @card4, @card6], @turn.spoils_of_war
+    assert_equal @turn.player1.deck.cards, [@card8]
+    assert_equal @turn.player2.deck.cards, [@card7]
   end
 
   def test_pile_cards_sends_nothing_if_MAD
