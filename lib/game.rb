@@ -49,7 +49,8 @@ class Game
 
     # Get user input to run the game
     ok_go = gets.chomp
-    if (ok_go == "go") || (ok_go == "GO")
+    # if (ok_go == "go") || (ok_go == "GO")
+      if ok_go.downcase == "go"
       play_game                            # I thought I needed 'self.' here but didn't...
     else
       until ok_go == "go" || ok_go == "GO"
