@@ -4,7 +4,7 @@ require './lib/card'
 require './lib/deck'
 require './lib/player'
 require './lib/turn'
-
+ 
 class TurnTest < Minitest::Test
   def setup
     @card1 = Card.new(:heart, 'Jack', 11)
@@ -252,7 +252,7 @@ class TurnTest < Minitest::Test
     @player2 = Player.new("Aurora", @deck2)
 
     @turn = Turn.new(@player1, @player2)
-    
+
     winner = @turn.winner
     @turn.pile_cards
     @turn.award_spoils(winner)

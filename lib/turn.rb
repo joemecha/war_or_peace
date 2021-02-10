@@ -6,7 +6,7 @@ class Turn
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-    @no_winner = "No Winner"
+    @no_winner = "No Winner" # dubious variable
     @spoils_of_war = []
     @types = [:basic, :war, :mutually_assured_destruction]
   end
@@ -14,7 +14,7 @@ class Turn
   def type
     # Compare cards from players' decks to determine type of turn
     if @player1.deck.rank_of_card_at(0) != @player2.deck.rank_of_card_at(0)
-      @types[0]
+      @types[0] # What if returned symbol :basic ?
     elsif @player1.deck.rank_of_card_at(0) == @player2.deck.rank_of_card_at(0) &&
           @player1.deck.rank_of_card_at(2) != @player2.deck.rank_of_card_at(2) # <-- FOUND/FIXED MISTAKE HERE
       @types[1]
@@ -39,7 +39,7 @@ class Turn
         @player2
       end
     elsif type == :mutually_assured_destruction
-      p "No Winner"
+      "No Winner"
     end
   end
 

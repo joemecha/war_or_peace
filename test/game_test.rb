@@ -66,7 +66,7 @@ class GameTest < Minitest::Test
   end
 
   def test_turn_counter_increases
-    skip                          # Cannot refactor after completing other code
+    skip                         # Cannot refactor after completing other code
 
     # stuff
 
