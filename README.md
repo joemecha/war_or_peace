@@ -37,7 +37,7 @@ List of features ready and TODOs for future development
 * Takes three arrays of suits, ranks, values, then creates a ranks_and_value_hash, finally iterating to generate a standard deck of playing card objects
 * Displays the results of each turn as well as the number of cards in the turn winner's hand
 * Runs up to a million turns before calling a draw
-* First time to create a project of this size, with multiple classes/test files, runner file, setup methods for minitest 
+* First time to create a project of this size, with multiple classes/test files, runner file, setup methods for minitest
 
 To-do list:
 * Improve functionality: when turn.winner is set to the string "No Winner," creates an error tied to line 76 in game.rb
@@ -52,4 +52,4 @@ Created by
 * [@joemecha](https://github.com/joemecha)
 
 
-![Mastermind title image](/img/spg_zk.jpg "War and Peace Image")
+![Mastermind title image](/images/spg_zk.jpg "War and Peace Image")
